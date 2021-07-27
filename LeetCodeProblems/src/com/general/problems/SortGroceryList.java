@@ -1,6 +1,14 @@
 package com.general.problems;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SortGroceryList {
 
@@ -15,34 +23,36 @@ public class SortGroceryList {
 	}
 	
 	public static String getIsle(String item) {
-		switch (item) {
+		Map<String, String> isleLookup =  new HashMap<String, String>();
+		BufferedReader br = null;
+		File file = new File("C:\\Users\\anagpurk\\Desktop\\Help\\lookup.txt");
 		
-		case "Tomato":
-			return "Vegetables";
+		try {
+			br = new BufferedReader( new FileReader(file));
 		
-		case "Cherry":
-			return "Fruits";
-
-		case "Cabbage":
-			return "Vegetables";
-
-		case "Chilli Powder":
-			return "Spices";
-
-		case "Onion":
-			return "Vegetables";
-
-		case "Grapes":
-			return "Fruits";
-
-		case "Ketchup":
-			return "Spices";
+		
+		String line = null;
+		
+		while ((line = br.readLine()) != null) {
 			
+			// split the line by
+			String[] parts = line.split(":");
 			
-		default:
-			break;
+			String itm = parts[0].trim();
+			String ile = parts[1].trim();
+			
+			if(!itm.equals("") && !ile.equals(""))
+				isleLookup.put(itm,ile);
+			
 		}
-		return "";
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return isleLookup.get(item);
 	}
 
 }
